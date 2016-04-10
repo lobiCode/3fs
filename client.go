@@ -1,19 +1,37 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"net/rpc"
+	"net/rpc/jsonrpc"
 )
+
+type MsisdnFormat struct {
+	Cc  string // country dialing code
+	Ndc string // mno identifier (national destination code)
+	Sn  string // sucriber code
+	Ci  string // country indentiifier
+}
 
 func main() {
 
-	rpcClient, _ := rpc.Dial("tcp", ":8080")
+	rpcClient, _ := jsonrpc.Dial("tcp", ":1234")
 
-	msisdn := "number"
-	var reply string
+	//msisdn := "+43 699 10741907"
+	//msisdn := "+13023541497"
+	//msisdn := "+918234123456"
+	msisdn := "+38630388432"
 
-	rpcClient.Call("Arith.ParseMsisdn", msisdn, &reply)
+	var reply MsisdnFormat
 
-	fmt.Println(reply)
+	err := rpcClient.Call("Arith.ParseMsisdn", msisdn, &reply)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	j, _ := json.Marshal(reply)
+
+	fmt.Println(string(j))
 
 }
