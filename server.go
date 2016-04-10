@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./mylib"
+	"github.com/lobiCode/3fs/mylib"
 	"net"
 	"net/rpc"
 	"net/rpc/jsonrpc"
@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	arith := new(methods.Arith)
+	arith := new(mylib.Arith)
 	rpc.Register(arith)
 
 	tcpAddr, _ := net.ResolveTCPAddr("tcp", ":1234")
