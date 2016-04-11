@@ -4,13 +4,14 @@ MNO identifier, country dialling code, subscriber number and country identifier.
 
 ### INSTALLATION
 ```go
+go get github.com/ttacon/libphonenumber
 go run server.go
 ```
  
 or
 
 ```
-docker run slani/go_rpc_json_s
+docker run -p 1234:1234 slani/go_rpc_json_s
 ```
 
 ### EXAMPLE
