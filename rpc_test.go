@@ -9,9 +9,11 @@ import (
 	"testing"
 )
 
-var rpcClient *rpc.Client
-var addr string = ":1234"
-var method string = "Arith.ParseMsisdn"
+var (
+	rpcClient *rpc.Client
+	addr      string = ":1234"
+	method    string = "Arith.ParseMsisdn"
+)
 
 func init() {
 
