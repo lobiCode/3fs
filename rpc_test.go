@@ -3,23 +3,18 @@ package main
 import (
 	"errors"
 	"fmt"
+	"github.com/lobiCode/3fs/mylib"
 	"net/rpc"
 	"net/rpc/jsonrpc"
 	"testing"
 )
-
-type MsisdnFormat struct {
-	Cc  string // country dialing code
-	Ndc string // mno identifier (national destination code)
-	Sn  string // sucriber code
-	Ci  string // country indentifier
-}
 
 var rpcClient *rpc.Client
 var addr string = ":1234"
 var method string = "Arith.ParseMsisdn"
 
 func init() {
+
 	var err error
 	rpcClient, err = jsonrpc.Dial("tcp", addr)
 	if err != nil {
@@ -29,15 +24,15 @@ func init() {
 
 func TestSI(t *testing.T) {
 
-	var reply MsisdnFormat
+	var reply mylib.MsisdnFormat
 
 	test := "TestSI "
-	msisdn := "+38630388432"
+	msisdn := "+38640111111"
 	cc := "386"
 	ndc := ""
-	ndc1 := "30"
-	sn := "388432"
-	sn1 := "30388432"
+	ndc1 := "40"
+	sn := "111111"
+	sn1 := "04111111"
 	ci := "SI"
 
 	err := rpcClient.Call(method, msisdn, &reply)

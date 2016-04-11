@@ -17,10 +17,7 @@ func main() {
 
 	rpcClient, _ := jsonrpc.Dial("tcp", ":1234")
 
-	//msisdn := "+43 699 10741907"
-	//msisdn := "+13023541497"
-	//msisdn := "+918234123456"
-	msisdn := "+38630388432"
+	msisdn := "+38640111111"
 
 	var reply MsisdnFormat
 
