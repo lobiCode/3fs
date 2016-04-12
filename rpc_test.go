@@ -26,72 +26,49 @@ func init() {
 
 func TestSI(t *testing.T) {
 
-	var reply mylib.MsisdnFormat
-
-	test := "TestSI "
-	msisdn := "+38640111111"
-	cc := "386"
-	ndc := ""
-	ndc1 := "40"
-	sn := "111111"
-	sn1 := "04111111"
-	ci := "SI"
-
-	err := rpcClient.Call(method, msisdn, &reply)
+	test := &mylib.MsisdnFormat{"386", "40", "111111", "SI"}
+	err := HelpTest(test, "+38640111111")
 
 	if err != nil {
 		t.Error(err)
-	}
-
-	if reply.Cc != cc {
-		t.Error(errors.New(test + "wrong country dialing code"))
-	}
-
-	if reply.Ndc != ndc && reply.Ndc != ndc1 {
-		t.Error(errors.New(test + "wrong mno identifier"))
-	}
-
-	if reply.Sn != sn && reply.Sn != sn1 {
-		t.Error(errors.New(test + "wrong sucriber identifier"))
-	}
-
-	if reply.Ci != ci {
-		t.Error(errors.New(test + "wrong country identifier"))
 	}
 }
 
 func TestFR(t *testing.T) {
 
-	var reply mylib.MsisdnFormat
-
-	test := "TestFR "
-	msisdn := "+33123456789"
-	cc := "33"
-	ndc := ""
-	ndc1 := "1"
-	sn := "23456789"
-	sn1 := "123456789"
-	ci := "FR"
-
-	err := rpcClient.Call(method, msisdn, &reply)
+	test := &mylib.MsisdnFormat{"33", "1", "23456789", "FR"}
+	err := HelpTest(test, "+33123456789")
 
 	if err != nil {
 		t.Error(err)
 	}
+}
 
-	if reply.Cc != cc {
-		t.Error(errors.New(test + "wrong country dialing code"))
+func HelpTest(t *mylib.MsisdnFormat, msisdn string) error {
+
+	var reply mylib.MsisdnFormat
+
+	err := rpcClient.Call(method, msisdn, &reply)
+
+	if err != nil {
+		return err
 	}
 
-	if reply.Ndc != ndc && reply.Ndc != ndc1 {
-		t.Error(errors.New(test + "wrong mno identifier"))
+	if reply.Cc != t.Cc {
+		return errors.New("wrong country dialing code")
 	}
 
-	if reply.Sn != sn && reply.Sn != sn1 {
-		t.Error(errors.New(test + "wrong sucriber identifier"))
+	if reply.Ndc != "" && reply.Ndc != t.Ndc {
+		return errors.New("wrong mno identifier")
 	}
 
-	if reply.Ci != ci {
-		t.Error(errors.New(test + "wrong country identifier"))
+	if reply.Sn != (t.Ndc+t.Sn) && reply.Sn != t.Sn {
+		return errors.New("wrong sucriber identifier")
 	}
+
+	if reply.Ci != t.Ci {
+		return errors.New("wrong country identifier")
+	}
+
+	return nil
 }
